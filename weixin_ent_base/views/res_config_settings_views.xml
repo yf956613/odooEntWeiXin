@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+	Copyright (C) 2019 SuXueFeng License(GNU)
+-->
+<odoo>
+
+    <record id="res_config_settings_view_form" model="ir.ui.view">
+        <field name="name">res.config.settings.view.form.inherit</field>
+        <field name="model">res.config.settings</field>
+        <field name="priority" eval="52"/>
+        <field name="inherit_id" ref="base.res_config_settings_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//div[hasclass('settings')]" position="inside">
+                <div class="app_settings_block weixin_ent_settings_block" string="企业微信" data-string="企业微信"
+                     data-key="weixin_ent_base" groups="weixin_ent_base.manage_groups">
+
+                    <h2>企业微信参数</h2>
+                    <div class="row mt16 o_settings_container">
+                        <div class="col-12 col-lg-6 o_setting_box">
+                            <div class="o_setting_right_pane">
+                                <field name="ent_wx_corp_id" placeholder="请输入企业微信CorpId" required="1"/>
+                            </div>
+                            <div class="o_setting_right_pane">
+                                <label for="ent_wx_corp_id"/>
+                                <div class="text-muted">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <h2>自建应用参数</h2>
+                    <div class="row mt16 o_settings_container">
+                        <div class="col-12 col-lg-6 o_setting_box">
+                            <div class="o_setting_right_pane">
+                                <field name="ent_wx_agent_id" placeholder="请输入自建应用AgentId"/>
+                            </div>
+                            <div class="o_setting_right_pane">
+                                <label for="ent_wx_agent_id"/>
+                                <div class="text-muted">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-lg-6 o_setting_box">
+                            <div class="o_setting_right_pane">
+                                <field name="ent_wx_secret" password="password" placeholder="请输入自建应用Secret！"/>
+                            </div>
+                            <div class="o_setting_right_pane">
+                                <label for="ent_wx_secret"/>
+                                <div class="text-muted">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <h2>基础应用参数</h2>
+                    <div class="row mt16 o_settings_container">
+                        <div class="col-12 col-lg-6 o_setting_box">
+                            <div class="o_setting_right_pane">
+                                <field name="ent_wx_ab_secret" password="password" placeholder="请输入通讯录Secret"/>
+                            </div>
+                            <div class="o_setting_right_pane">
+                                <label for="ent_wx_ab_secret"/>
+                                <div class="text-muted">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <h2>Odoo动作</h2>
+                    <div class="row mt16 o_settings_container">
+                        <div class="col-12 col-lg-6 o_setting_box">
+                            <div class="o_setting_left_pane">
+                                <field name="ent_wx_token"/>
+                            </div>
+                            <div class="o_setting_right_pane">
+                                <label for="ent_wx_token"/>
+                                <div class="text-muted">
+                                    自动获取Token
+                                </div>
+                                <button type="object" string="立即更新" icon="fa-arrow-right" name="get_weixin_ent_token"/>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="weixin_ent_settings_configuration_action" model="ir.actions.act_window">
+        <field name="name">Settings</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">res.config.settings</field>
+        <field name="view_mode">form</field>
+        <field name="target">inline</field>
+        <field name="context">{'module' : 'weixin_ent_base'}</field>
+    </record>
+
+    <menuitem id="weinxin_ent_settings_menu" name="API配置" parent="configure_menu"
+              sequence="1" action="weixin_ent_settings_configuration_action" groups="weixin_ent_base.manage_groups"/>
+
+</odoo>

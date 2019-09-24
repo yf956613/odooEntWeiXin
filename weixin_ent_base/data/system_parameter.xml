@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+	Copyright (C) 2019 SuXueFeng License  GNU
+-->
+<odoo>
+    <data noupdate="1">
+
+		<record id="wx_system_parameter_token" model="weixin.ent.parameter">
+			<field name="name">企业微信-自建应用Token</field>
+			<field name="key">token</field>
+			<field name="value">0000</field>
+		</record>
+		<record id="wx_system_parameter_ent_wx_ab_token" model="weixin.ent.parameter">
+			<field name="name">企业微信-通讯录Token</field>
+			<field name="key">ent_wx_ab_token</field>
+			<field name="value">0000</field>
+		</record>
+		<record id="wx_system_parameter_get_token" model="weixin.ent.parameter">
+			<field name="name">获取TokenUrl</field>
+			<field name="key">get_token</field>
+			<field name="value">https://qyapi.weixin.qq.com/cgi-bin/gettoken?</field>
+		</record>
+
+		<record id="wx_system_parameter_department_list" model="weixin.ent.parameter">
+			<field name="name">获取部门列表</field>
+			<field name="key">department_list</field>
+			<field name="value">https://qyapi.weixin.qq.com/cgi-bin/department/list?access_token=</field>
+		</record>
+		<record id="wx_system_parameter_department_create" model="weixin.ent.parameter">
+			<field name="name">创建部门</field>
+			<field name="key">department_create</field>
+			<field name="value">https://qyapi.weixin.qq.com/cgi-bin/department/create?access_token=</field>
+		</record>
+		<record id="wx_system_parameter_department_update" model="weixin.ent.parameter">
+			<field name="name">更新部门</field>
+			<field name="key">department_update</field>
+			<field name="value">https://qyapi.weixin.qq.com/cgi-bin/department/update?access_token=</field>
+		</record>
+		<record id="wx_system_parameter_department_delete" model="weixin.ent.parameter">
+			<field name="name">删除部门</field>
+			<field name="key">department_delete</field>
+			<field name="value">https://qyapi.weixin.qq.com/cgi-bin/department/delete?access_token=</field>
+		</record>
+
+		<record id="wx_system_parameter_user_list" model="weixin.ent.parameter">
+			<field name="name">获取部门成员详情</field>
+			<field name="key">user_list</field>
+			<field name="value">https://qyapi.weixin.qq.com/cgi-bin/user/list?access_token=</field>
+		</record>
+		<record id="wx_system_parameter_user_create" model="weixin.ent.parameter">
+			<field name="name">创建成员</field>
+			<field name="key">user_create</field>
+			<field name="value">https://qyapi.weixin.qq.com/cgi-bin/user/create?access_token=</field>
+		</record>
+		<record id="wx_system_parameter_user_get" model="weixin.ent.parameter">
+			<field name="name">读取成员</field>
+			<field name="key">user_get</field>
+			<field name="value">https://qyapi.weixin.qq.com/cgi-bin/user/get?access_token=</field>
+		</record>
+		<record id="wx_system_parameter_user_update" model="weixin.ent.parameter">
+			<field name="name">更新成员</field>
+			<field name="key">user_update</field>
+			<field name="value">https://qyapi.weixin.qq.com/cgi-bin/user/update?access_token=</field>
+		</record>
+		<record id="wx_system_parameter_user_delete" model="weixin.ent.parameter">
+			<field name="name">删除成员</field>
+			<field name="key">user_delete</field>
+			<field name="value">https://qyapi.weixin.qq.com/cgi-bin/user/delete?access_token=</field>
+		</record>
+
+
+		<!-- 企业微信-定时更新应用token值 -->
+		<record id="get_ent_weixin_token_ir_cron" model="ir.cron">
+			<field name="name">企业微信-更新应用Token值</field>
+			<field name="model_id" ref="model_weixin_ent_tools"/>
+			<field name="type">ir.actions.server</field>
+			<field name="active">True</field>
+			<field name="state">code</field>
+			<field name="code">env['weixin.ent.tools'].get_weixin_ent_token()</field>
+			<field name="interval_number">90</field>
+			<field name="interval_type">minutes</field>
+			<field name="numbercall">-1</field>
+		</record>
+
+    </data>
+</odoo>

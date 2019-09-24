@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Copyright (C) 2019 SuXueFeng
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU Affero General Public License as
+    published by the Free Software Foundation, either version 3 of the
+    License, or (at your option) any later version.
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU Affero General Public License for more details.
+    You should have received a copy of the GNU Affero General Public License
+    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+-->
+<odoo>
+
+    <record id="weixin_ent_data_synchronous_form_view" model="ir.ui.view">
+        <field name="name">通讯录同步</field>
+        <field name="model">weixin.ent.data.synchronous</field>
+        <field name="arch" type="xml">
+            <form>
+                <div class="alert alert-info" role="alert">
+                    <p>选择需要同步的数据类型~<br/>
+                        关于重名处理: 为了融合企业微信（部门、成员）名称和Odoo已存在的记录，同步时可自行选择替换还是忽略~<br/>
+                        请注意：替换时，会替换掉部门的上级部门和名称！！！
+                    </p>
+                </div>
+                <group col="2">
+                    <group>
+                        <field name="department" widget="boolean_toggle"/>
+                        <field name="employee" widget="boolean_toggle"/>
+                    </group>
+                    <group>
+                        <field name="dept_processing" widget="radio" options="{'horizontal': true}" attrs="{'invisible': [('department', '!=', True)]}"/>
+                        <field name="emp_processing" widget="radio" options="{'horizontal': true}" attrs="{'invisible': [('employee', '!=', True)]}"/>
+                    </group>
+                </group>
+                <footer>
+                    <button string="立即同步" name="start_synchronous_data" type="object" class="oe_highlight"/>
+                    <button string="告辞" class="btn btn-default" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="weixin_ent_data_synchronous_action" model="ir.actions.act_window">
+        <field name="name">通讯录同步</field>
+        <field name="res_model">weixin.ent.data.synchronous</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+
+    <menuitem name="数据同步" id="weixin_ent_data_synchronous_menu" parent="address_book_menu" sequence="5"
+              action="weixin_ent_data_synchronous_action"/>
+
+</odoo>

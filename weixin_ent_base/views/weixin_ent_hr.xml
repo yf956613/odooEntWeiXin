@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Copyright (C) 2019 SuXueFeng
+-->
+<odoo>
+
+    <record id="weixin_ent_base.view_department_form_inherit" model="ir.ui.view">
+        <field name="name">hr.department.form</field>
+        <field name="model">hr.department</field>
+        <field name="inherit_id" ref="hr.view_department_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='manager_id']" position='after'>
+                <field name="ent_wx_id" readonly="1"/>
+            </xpath>
+        </field>
+    </record>
+    <record id='create_ent_weixin_department_action' model='ir.actions.server'>
+        <field name='name'>创建企业微信部门</field>
+        <field name="model_id" ref="hr.model_hr_department"/>
+        <field name="binding_model_id" ref="model_hr_department"/>
+        <field name="state">code</field>
+        <field name="code">
+if records:
+    action = records.create_ent_weixin_department()
+        </field>
+    </record>
+    <record id='write_ent_weixin_department_action' model='ir.actions.server'>
+        <field name='name'>更新企业微信部门</field>
+        <field name="model_id" ref="hr.model_hr_department"/>
+        <field name="binding_model_id" ref="model_hr_department"/>
+        <field name="state">code</field>
+        <field name="code">
+if records:
+    action = records.write_ent_weixin_department()
+        </field>
+    </record>
+    <record id='delete_ent_weixin_department_action' model='ir.actions.server'>
+        <field name='name'>删除企业微信部门</field>
+        <field name="model_id" ref="hr.model_hr_department"/>
+        <field name="binding_model_id" ref="model_hr_department"/>
+        <field name="state">code</field>
+        <field name="code">
+if records:
+    action = records.delete_ent_weixin_department()
+        </field>
+    </record>
+
+
+    <record id="weixin_ent_base.view_employee_form_inherit" model="ir.ui.view">
+        <field name="name">hr.employee.form</field>
+        <field name="model">hr.employee</field>
+        <field name="inherit_id" ref="hr.view_employee_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//page[@name='public']" position='after'>
+                <page string="企业微信">
+                    <group string="拓展资料">
+                        <group>
+                            <field name="ent_wx_id" readonly="1"/>
+                            <field name="ent_wx_department_ids" widget="many2many_tags"/>
+                            <field name="ent_ex_open_state"/>
+                            <field name="ent_ex_alias"/>
+                            <field name="ent_wx_status"/>
+                        </group>
+                    </group>
+                    <group string="图像">
+                        <group>
+                            <field name="ent_wx_avatar"/>
+                        </group>
+                        <group>
+                            <field name="ent_wx_qr_code"/>
+                        </group>
+                    </group>
+                </page>
+            </xpath>
+        </field>
+    </record>
+    <record id='create_ent_weixin_employee_action' model='ir.actions.server'>
+        <field name='name'>创建企业微信员工</field>
+        <field name="model_id" ref="hr.model_hr_employee"/>
+        <field name="binding_model_id" ref="model_hr_employee"/>
+        <field name="state">code</field>
+        <field name="code">
+if records:
+    action = records.create_ent_weixin_employee()
+        </field>
+    </record>
+    <record id='write_ent_weixin_employee_action' model='ir.actions.server'>
+        <field name='name'>更新企业微信员工</field>
+        <field name="model_id" ref="hr.model_hr_employee"/>
+        <field name="binding_model_id" ref="model_hr_employee"/>
+        <field name="state">code</field>
+        <field name="code">
+if records:
+    action = records.write_ent_weixin_employee()
+        </field>
+    </record>
+    <record id='delete_ent_weixin_employee_action' model='ir.actions.server'>
+        <field name='name'>删除企业微信员工</field>
+        <field name="model_id" ref="hr.model_hr_employee"/>
+        <field name="binding_model_id" ref="model_hr_employee"/>
+        <field name="state">code</field>
+        <field name="code">
+if records:
+    action = records.delete_ent_weixin_employee()
+        </field>
+    </record>
+    <record id='get_ent_weixin_employee_action' model='ir.actions.server'>
+        <field name='name'>获取企业微信员工详情</field>
+        <field name="model_id" ref="hr.model_hr_employee"/>
+        <field name="binding_model_id" ref="model_hr_employee"/>
+        <field name="state">code</field>
+        <field name="code">
+if records:
+    action = records.get_ent_weixin_employee()
+        </field>
+    </record>
+
+    <menuitem name="部门" id="ent_weixin_employee_menu" parent="address_book_menu" sequence="1"
+          action="hr.open_module_tree_department"/>
+
+    <menuitem name="员工" id="ent_weixin_department_menu" parent="address_book_menu" sequence="2"
+          action="hr.open_view_employee_list_my"/>
+
+</odoo>
