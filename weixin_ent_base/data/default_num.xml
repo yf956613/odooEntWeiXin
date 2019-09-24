@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+Copyright (C) 2019 SuXueFeng
+-->
+<odoo>
+    <data noupdate="1">
+
+        <record id="weixin_ent_employee_sequence" model="ir.sequence">
+            <field name="name">Employee Sequence</field>
+            <field name="code">winxin.ent.employee.code</field>
+            <field name="prefix">wx%(year)s%(month)s%(day)s</field>
+            <field name="suffix"/>
+            <field name="padding">5</field>
+        </record>
+
+    </data>
+</odoo>

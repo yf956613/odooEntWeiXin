@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Copyright (C) 2019 SuXueFeng License(GNU)
+-->
+<odoo>
+    <data>
+
+        <menuitem name="企业微信" id="weixin_main_menu" web_icon="weixin_ent_base,static/description/icon.png" sequence="10" groups="weixin_ent_base.manage_groups"/>
+
+        <menuitem name="通讯录" id="address_book_menu" parent="weixin_main_menu" sequence="1"/>
+
+        <menuitem name="设置" id="configure_menu" parent="weixin_main_menu" sequence="100"/>
+
+    </data>
+</odoo>

@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+	Copyright (C) 2019 SuXueFeng License GNU
+-->
+<odoo>
+
+    <record id="weixin_ent_parameter_tree_view" model="ir.ui.view">
+        <field name="name">企业微信系统参数</field>
+        <field name="model">weixin.ent.parameter</field>
+        <field name="arch" type="xml">
+            <tree default_order="id desc" editable="top">
+                <field name="name"/>
+                <field name="key"/>
+                <field name="value"/>
+            </tree>
+        </field>
+    </record>
+
+    <record model="ir.actions.act_window" id="weixin_ent_parameter_action">
+        <field name="name">企业微信系统参数</field>
+        <field name="res_model">weixin.ent.parameter</field>
+        <field name="view_mode">tree</field>
+    </record>
+
+    <record model="ir.ui.view" id="weixin_ent_parameter_search">
+        <field name="model">weixin.ent.parameter</field>
+        <field name="arch" type="xml">
+            <search string="企业微信系统参数">
+                <field name="name"/>
+                <field name="key"/>
+                <field name="value"/>
+            </search>
+        </field>
+    </record>
+
+    <menuitem id="weixin_ent_parameter_menu" name="企业微信" parent="base.menu_ir_property" sequence="3" action="weixin_ent_parameter_action" groups="weixin_ent_base.manage_groups"/>
+
+</odoo>

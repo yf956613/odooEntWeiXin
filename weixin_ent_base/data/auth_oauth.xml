@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+	Copyright (C) 2019 SuXueFeng License (GNU)
+-->
+<odoo>
+    <data noupdate="0">
+
+        <record id="ent_weixin_qr_code_login" model="auth.oauth.provider">
+            <field name="name">企业微信扫码登录</field>
+            <field name="auth_endpoint">/web/xinwei/ent/login</field>
+            <field name="scope">weixin_ent_login</field>
+            <field name="validation_endpoint">/web/xinwei/ent/login</field>
+            <field name="data_endpoint">/web/xinwei/ent/login</field>
+            <field name="css_class">fa fa-weixin</field>
+            <field name="body">企业微信扫码登录</field>
+            <field name="enabled" eval="True"/>
+        </record>
+
+    </data>
+</odoo>
