@@ -47,15 +47,15 @@ class WeiXinEntLogin(Home, http.Controller):
         result = request_get(url, token, {'code': code})
         # 扫码失败
         if result['errcode'] != 0:
-            return http.redirect_with_hash('/web')
+            return self._do_err_redirect(result['errmsg'])
         # 非企业成员直接返回到主界面
         if not result.get('UserId'):
-            return http.redirect_with_hash('/web')
+            return self._do_err_redirect("非企业员工成员无法使用扫码登录，请使用账号密码登录！")
         # 成员UserID
         employee = request.env['hr.employee'].sudo().search([('ent_wx_id', '=', result['UserId'])], limit=1)
         # 没有关联系统用户时返回到主界面
-        if not employee.user_id:
-            return http.redirect_with_hash('/web')
+        if not employee.ent_ex_user_id:
+            return self._do_err_redirect("你的账户没有关联系统用户，不能使用扫码登录，请联系管理员手动配置！")
         # 校验成功进行登录
         return self._wxent_do_post_login(employee.ent_wx_id, redirect)
 
@@ -82,9 +82,9 @@ class WeiXinEntLogin(Home, http.Controller):
                 if uid:
                     return http.redirect_with_hash(url)
                 else:
-                    self._do_err_redirect("登录失败")
+                    return self._do_err_redirect("Oauth认证失败！请使用账号登录")
             except Exception as e:
-                self._do_err_redirect("登录失败,原因为:{}".format(str(e)))
+                return self._do_err_redirect("登录失败,原因为:{}".format(str(e)))
 
     def _do_err_redirect(self, errmsg):
         """
@@ -94,5 +94,5 @@ class WeiXinEntLogin(Home, http.Controller):
         values = request.params.copy()
         values['error'] = _(errmsg)
         http.redirect_with_hash('/web/login')
-        response = request.render('web.login', values)
+        response = request.render('weixin_ent_base.oauth_login_signup', values)
         return response

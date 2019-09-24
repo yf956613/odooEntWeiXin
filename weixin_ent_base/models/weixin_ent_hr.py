@@ -98,6 +98,7 @@ class HrEmployee(models.Model):
     ent_ex_open_state = fields.Selection(string=u'启用状态', selection=[(1, '启用'), (0, '禁用')], default=0)
     ent_ex_alias = fields.Char(string='别名')
     ent_wx_status = fields.Selection(string=u'激活状态', selection=[(1, '已激活'), (2, '已禁用'), (4, '未激活')])
+    ent_ex_user_id = fields.Many2one(comodel_name='res.users', string=u'关联系统用户')
 
     @api.multi
     @api.depends('ent_wx_avatar_url')
@@ -273,3 +274,25 @@ class HrEmployee(models.Model):
                 data['gender'] = 'other'
             res.write(data)
             res.message_post(body=u"已从企业微信中获取信息！", message_type='notification')
+
+    @api.constrains('user_id')
+    def _constrains_user_id(self):
+        """
+        当相关用户字段发生改变时同步至关联系统用户字段
+        :return:
+        """
+        for res in self:
+            if res.user_id:
+                res.ent_ex_user_id = res.user_id
+
+    @api.constrains('ent_ex_user_id')
+    def _constrains_ent_ex_user_id(self):
+        """
+        同步关联系统用户字段到系统用户res.users表中，用户oauth字段标识
+        :return:
+        """
+        for res in self:
+            if res.ent_ex_user_id:
+                sql = """UPDATE res_users SET wx_ent_user_id='{}' WHERE id={}""".format(res.ent_wx_id, res.ent_ex_user_id.id)
+                _logger.info(sql)
+                self._cr.execute(sql)

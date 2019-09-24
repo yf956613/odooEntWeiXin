@@ -26,6 +26,7 @@
         'views/system_parameter.xml',
         'views/weixin_ent_hr.xml',
         'views/res_users_views.xml',
+        'views/oauth_templates.xml',
 
         'wizard/synchronous.xml',
     ],

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+	Copyright (C) 2019 SuXueFeng License GNU
+-->
+<odoo>
+
+    <template id="weixin_ent_base.oauth_login_signup" name="WeiXin Ent Login signup">
+        <t t-call="web.login_layout">
+            <form class="oe_signup_form" role="form" method="post" t-if="not message">
+                <p class="alert alert-danger" t-if="error">
+                    <t t-raw="error"/>
+                </p>
+                <p class="alert alert-success" t-if="message">
+                    <t t-esc="message"/>
+                </p>
+                <div class="text-center oe_login_buttons pt-3">
+                    <a t-attf-href="/web/login?{{ keep_query() }}" class="btn btn-link btn-sm" role="button">返回首页登录</a>
+                </div>
+            </form>
+        </t>
+    </template>
+
+</odoo>
