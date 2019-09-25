@@ -14,6 +14,8 @@
 
         <menuitem name="通讯录" id="address_book_menu" parent="weixin_main_menu" sequence="1"/>
 
+        <menuitem name="外部联系人" id="external_contact_menu" parent="weixin_main_menu" sequence="2"/>
+
         <menuitem name="设置" id="configure_menu" parent="weixin_main_menu" sequence="100"/>
 
     </data>
