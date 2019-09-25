@@ -124,4 +124,68 @@ if records:
     <menuitem name="员工" id="ent_weixin_department_menu" parent="address_book_menu" sequence="2"
           action="hr.open_view_employee_list_my"/>
 
+
+    <record id="hr_employee_tags_tree_view" model="ir.ui.view">
+        <field name="name">成员标签</field>
+        <field name="model">hr.employee.tags</field>
+        <field name="arch" type="xml">
+            <tree default_order="id desc" js_class="hr_employee_tags_class">
+                <field name="name"/>
+                <field name="wx_ent_id"/>
+                <field name="active"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="hr_employee_tags_form_view" model="ir.ui.view">
+        <field name="name">成员标签</field>
+        <field name="model">hr.employee.tags</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <button name="get_tags_users" type="object" string="获取标签成员" class="oe_highlight"/>
+                    <button type="action" name="%(add_employee_tags_tran_action)d" string="添加标签成员"/>
+                    <button type="action" name="%(delete_employee_tags_tran_action)d" string="删除标签成员"/>
+                </header>
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button type="object" name="update_weixin_ent_tags" class="oe_stat_button" icon="fa-newspaper-o"
+                                string="更新标签">
+                        </button>
+                        <button name="toggle_active" type="object" class="oe_stat_button" icon="fa-archive">
+                            <field name="active" widget="boolean_button" options="{&quot;terminology&quot;: &quot;archive&quot;}"/>
+                        </button>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="name" required="1" options='{"no_open": True, "no_create": True}'/>
+                            <field name="wx_ent_id" readonly="1"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="标签成员">
+                            <field name="employee_ids" readonly="1" options='{"no_open": True, "no_create": True, "no_edit":True, "no_create_edit":True}'/>
+                        </page>
+                        <page string="标签部门">
+                            <field name="department_ids" readonly="1" options='{"no_open": True, "no_create": True, "no_edit":True, "no_create_edit":True}'/>
+                        </page>
+                    </notebook>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids" widget="mail_followers"/>
+                    <field name="activity_ids" widget="mail_activity"/>
+                    <field name="message_ids" widget="mail_thread"/>
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <record model="ir.actions.act_window" id="hr_employee_tags_action">
+        <field name="name">成员标签</field>
+        <field name="res_model">hr.employee.tags</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <menuitem id="hr_employee_tags_menu" name="成员标签" parent="address_book_menu" sequence="3" action="hr_employee_tags_action"/>
+
 </odoo>

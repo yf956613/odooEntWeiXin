@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="hr_employee_tags_tran_form_view" model="ir.ui.view">
+        <field name="name">成员标签</field>
+        <field name="model">hr.employee.tags.tran</field>
+        <field name="arch" type="xml">
+            <form>
+                <p>
+                    可以获取在企业微信中所有标签列表.
+                </p>
+                <footer>
+                    <button string="立即获取" name="pull_employee_tags" type="object" class="oe_highlight"/>
+                    <button string="取消" class="btn btn-default" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="hr_employee_tags_tran_action" model="ir.actions.act_window">
+        <field name="name">成员标签</field>
+        <field name="res_model">hr.employee.tags.tran</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+
+    <record id="add_employee_tags_tran_form_view" model="ir.ui.view">
+        <field name="name">添加标签成员</field>
+        <field name="model">add.employee.tags.tran</field>
+        <field name="arch" type="xml">
+            <form>
+                <group>
+                    <field name="tag_id" invisible="1"/>
+                    <field name="emp_ids" widget="many2many_tags" placeholder="成员..." required="1"
+                           options='{"no_create": True, "no_edit":True, "no_create_edit":True}'/>
+                </group>
+                <footer>
+                    <button string="立即添加" name="add_employee" type="object" class="oe_highlight"/>
+                    <button string="取消" class="btn btn-default" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="add_employee_tags_tran_action" model="ir.actions.act_window">
+        <field name="name">添加标签成员</field>
+        <field name="res_model">add.employee.tags.tran</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+
+    <record id="delete_employee_tags_tran_form_view" model="ir.ui.view">
+        <field name="name">删除标签成员</field>
+        <field name="model">delete.employee.tags.tran</field>
+        <field name="arch" type="xml">
+            <form>
+                <group>
+                    <field name="tag_id" invisible="1"/>
+                    <field name="emp_ids" widget="many2many_tags" placeholder="成员..." required="1"
+                           options='{"no_create": True, "no_edit":True, "no_create_edit":True}'/>
+                </group>
+                <footer>
+                    <button string="立即删除" name="delete_employee" type="object" class="oe_highlight"/>
+                    <button string="取消" class="btn btn-default" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="delete_employee_tags_tran_action" model="ir.actions.act_window">
+        <field name="name">删除标签成员</field>
+        <field name="res_model">delete.employee.tags.tran</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+
+</odoo>

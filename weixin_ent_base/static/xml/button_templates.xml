@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<template id="template" xml:space="preserve">
+
+    <t t-name="OdooEntWeiXinListView.Hr_EmployeeTags_Tree_But">
+        <button type="button" class="btn btn-secondary pull_weixin_ent_employee_tags_but">
+            拉取标签列表
+        </button>
+    </t>
+
+    <t t-extend="ListView.buttons" t-name="OdooEntWeiXinListView.Hr_EmployeeTags_Tree_Buttton">
+        <t t-jquery="button.o_list_button_add" t-operation="after">
+            <t t-js="ctx">
+                if (window.odoo._modules.indexOf("base_import") >= 0) {
+                    r.push(context.engine.tools.call(context, 'ImportView.import_button', dict));
+                };
+            </t>
+            <t t-call="OdooEntWeiXinListView.Hr_EmployeeTags_Tree_But"/>
+        </t>
+    </t>
+
+</template>
+
+

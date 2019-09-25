@@ -93,7 +93,7 @@
         <field name="context">{'module' : 'weixin_ent_base'}</field>
     </record>
 
-    <menuitem id="weinxin_ent_settings_menu" name="API配置" parent="configure_menu"
+    <menuitem id="weinxin_ent_settings_menu" name="基础配置" parent="configure_menu"
               sequence="1" action="weixin_ent_settings_configuration_action" groups="weixin_ent_base.manage_groups"/>
 
 </odoo>

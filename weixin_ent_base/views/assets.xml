@@ -4,6 +4,11 @@
 -->
 <odoo>
     <data>
+         <template id="weixin_ent_base_asset" name="WeiXin Ent Asset" inherit_id="web.assets_backend">
+            <xpath expr="." position="inside">
+                <script type="text/javascript" src="/weixin_ent_base/static/src/js/hr_employee_tags.js"></script>
+            </xpath>
+        </template>
 
         <menuitem name="企业微信" id="weixin_main_menu" web_icon="weixin_ent_base,static/description/icon.png" sequence="10" groups="weixin_ent_base.manage_groups"/>
 

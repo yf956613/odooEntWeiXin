@@ -22,12 +22,18 @@
         'data/auth_oauth.xml',
 
         'views/assets.xml',
+        'wizard/synchronous.xml',
+        'wizard/hr_employee_tags.xml',
+
         'views/res_config_settings_views.xml',
         'views/system_parameter.xml',
         'views/weixin_ent_hr.xml',
         'views/res_users_views.xml',
         'views/oauth_templates.xml',
 
-        'wizard/synchronous.xml',
+
     ],
+    'qweb': [
+        'static/xml/*.xml'
+    ]
 }
