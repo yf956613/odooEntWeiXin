@@ -5,7 +5,8 @@
 import logging
 from odoo import api, fields, models
 from odoo.exceptions import UserError
-from odoo.addons.weixin_ent_base.weixin_ent_tool.wx_tool import request_post, request_get
+from odoo.addons.weixin_ent_base.weixin_ent_tool.wx_tool import request_post, request_get, address_client
+from wechatpy.enterprise.client.api import WeChatTag
 
 _logger = logging.getLogger(__name__)
 
@@ -293,6 +294,104 @@ class HrEmployee(models.Model):
         """
         for res in self:
             if res.ent_ex_user_id:
+                # 先把原来的id清空
+                sql = """UPDATE res_users SET wx_ent_user_id='' WHERE wx_ent_user_id='{}'""".format(res.ent_wx_id)
+                self._cr.execute(sql)
                 sql = """UPDATE res_users SET wx_ent_user_id='{}' WHERE id={}""".format(res.ent_wx_id, res.ent_ex_user_id.id)
                 _logger.info(sql)
                 self._cr.execute(sql)
+
+
+class EmployeeTags(models.Model):
+    _description = "成员标签管理"
+    _name = 'hr.employee.tags'
+    _order = 'id'
+    _inherit = ['mail.thread', 'mail.activity.mixin']
+
+    active = fields.Boolean(default=True)
+    name = fields.Char(string='标签名称', index=True, required=True)
+    api_state = fields.Boolean(string=u'同步状态', default=True)
+    wx_ent_id = fields.Char(string='企业微信标签Id', index=True)
+    employee_ids = fields.Many2many('hr.employee', string=u'标签成员')
+    department_ids = fields.Many2many('hr.department', string=u'标签部门')
+
+    @api.model
+    def create(self, values):
+        """
+        创建时将标签自动推送到企业微信
+        :param values:
+        :return:
+        """
+        if 'api_state' not in values or values['api_state']:
+            try:
+                client = WeChatTag(address_client())
+                result = client.create(values.get('name'))
+            except Exception as e:
+                raise UserError(str(e))
+            if result['errcode'] != 0:
+                raise UserError(result['errmsg'])
+            values['wx_ent_id'] = result['tagid']
+        values['api_state'] = True
+        return super(EmployeeTags, self).create(values)
+
+    @api.multi
+    def unlink(self):
+        """
+        删除标签时同时删除企业微信中的标签
+        :return:
+        """
+        for res in self:
+            if res.wx_ent_id:
+                try:
+                    client = WeChatTag(address_client())
+                    result = client.delete(res.wx_ent_id)
+                except Exception as e:
+                    raise UserError(str(e))
+                if result['errcode'] != 0:
+                    raise UserError(result['errmsg'])
+            super(EmployeeTags, self).unlink()
+
+    @api.multi
+    def update_weixin_ent_tags(self):
+        """
+        更新标签纸企业微信
+        :return:
+        """
+        for res in self:
+            try:
+                client = WeChatTag(address_client())
+                result = client.update(res.wx_ent_id, res.name)
+            except Exception as e:
+                raise UserError(str(e))
+            if result['errcode'] != 0:
+                raise UserError(result['errmsg'])
+            res.message_post(body=u"已更新至企业微信中！", message_type='notification')
+
+    @api.multi
+    def get_tags_users(self):
+        """
+        获取标签成员列表
+        :return:
+        """
+        for res in self:
+            user_list = []
+            dept_list = []
+            try:
+                client = WeChatTag(address_client())
+                result = client.get_users(res.wx_ent_id)
+            except Exception as e:
+                raise UserError(str(e))
+            if result['errcode'] != 0:
+                raise UserError(result['errmsg'])
+            for user in result['userlist']:
+                emp = self.env['hr.employee'].search([('ent_wx_id', '=', user.get('userid'))], limit=1)
+                if emp:
+                    user_list.append(emp.id)
+            for party in result['partylist']:
+                dept = self.env['hr.department'].search([('ent_wx_id', '=', party)], limit=1)
+                if dept:
+                    dept_list.append(dept.id)
+            res.write({'employee_ids': [(6, 0, user_list)], 'department_ids': [(6, 0, dept_list)]})
+            res.message_post(body=u"已成功获取{}条成员信息和{}条部门信息！".format(len(user_list), len(dept_list)), message_type='notification')
+
+

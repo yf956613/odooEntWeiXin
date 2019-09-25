@@ -2,25 +2,38 @@
 ###################################################################################
 #    Copyright (C) 2019 SuXueFeng  License GNU
 ###################################################################################
-import base64
-import hashlib
 import json
 import logging
-import time
 import requests
 from requests import ReadTimeout, ConnectTimeout
-from odoo import api, models, fields
+from odoo import api, models
 from wechatpy.enterprise import WeChatClient
+from wechatpy.session.memorystorage import MemoryStorage
+
+from odoo.http import request
+
+mem_storage = MemoryStorage()
 _logger = logging.getLogger(__name__)
 
 
-def get_client(corp_id, secret):
+def app_client():
     """
-    :param corp_id: 企业微信公司Id
-    :param secret: 对应的秘钥（比如通讯录、自建应用...）
+    返回用于自建应用的客户端实例
     :return: 企业微信客户端实例
     """
-    return WeChatClient(corp_id, secret)
+    corp_id = request.env['ir.config_parameter'].sudo().get_param('weixin_ent_base.ent_wx_corp_id')
+    secret = request.env['ir.config_parameter'].sudo().get_param('weixin_ent_base.ent_wx_secret')
+    return WeChatClient(corp_id, secret, session=mem_storage)
+
+
+def address_client():
+    """
+    返回用于通讯录的客户端实例
+    :return:
+    """
+    corp_id = request.env['ir.config_parameter'].sudo().get_param('weixin_ent_base.ent_wx_corp_id')
+    secret = request.env['ir.config_parameter'].sudo().get_param('weixin_ent_base.ent_wx_ab_secret')
+    return WeChatClient(corp_id, secret, session=mem_storage)
 
 
 def request_get(url, token, data=None, timeout=None):
