@@ -1,3 +1,5 @@
 id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
 access_weixin_ent_parameter,weixin.ent.parameter,model_weixin_ent_parameter,base.group_user,1,1,1,1
 access_hr_employee_tags,hr.employee.tags,model_hr_employee_tags,weixin_ent_base.manage_groups,1,1,1,1
+access_ent_external_contact,ent.external.contact,model_ent_external_contact,weixin_ent_base.manage_groups,1,1,1,1
+access_external_contact_follow,external.contact.follow,model_external_contact_follow,weixin_ent_base.manage_groups,1,1,1,1

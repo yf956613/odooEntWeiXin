@@ -20,3 +20,4 @@
 
 from . import synchronous
 from . import hr_employee_tags
+from . import externa_lcontact

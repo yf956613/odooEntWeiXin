@@ -13,8 +13,9 @@ class ResConfigSettings(models.TransientModel):
     # ------自建应用--------------
     ent_wx_agent_id = fields.Char(string=u'自建应用AgentId')
     ent_wx_secret = fields.Char(string=u'自建应用Secret')
-    # ------通讯录--------------
+    # ------基础应用--------------
     ent_wx_ab_secret = fields.Char(string='通讯录Secret')
+    ent_wx_el_secret = fields.Char(string='外部联系人Secret')
 
     def get_values(self):
         res = super(ResConfigSettings, self).get_values()
@@ -24,6 +25,7 @@ class ResConfigSettings(models.TransientModel):
             ent_wx_secret=self.env['ir.config_parameter'].sudo().get_param('weixin_ent_base.ent_wx_secret'),
             ent_wx_token=self.env['ir.config_parameter'].sudo().get_param('weixin_ent_base.ent_wx_token'),
             ent_wx_ab_secret=self.env['ir.config_parameter'].sudo().get_param('weixin_ent_base.ent_wx_ab_secret'),
+            ent_wx_el_secret=self.env['ir.config_parameter'].sudo().get_param('weixin_ent_base.ent_wx_el_secret'),
         )
         return res
 
@@ -34,6 +36,7 @@ class ResConfigSettings(models.TransientModel):
         self.env['ir.config_parameter'].sudo().set_param('weixin_ent_base.ent_wx_secret', self.ent_wx_secret)
         self.env['ir.config_parameter'].sudo().set_param('weixin_ent_base.ent_wx_token', self.ent_wx_token)
         self.env['ir.config_parameter'].sudo().set_param('weixin_ent_base.ent_wx_ab_secret', self.ent_wx_ab_secret)
+        self.env['ir.config_parameter'].sudo().set_param('weixin_ent_base.ent_wx_el_secret', self.ent_wx_el_secret)
 
     def get_weixin_ent_token(self):
         self.env.ref('weixin_ent_base.get_ent_weixin_token_ir_cron').method_direct_trigger()

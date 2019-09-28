@@ -7,6 +7,7 @@
          <template id="weixin_ent_base_asset" name="WeiXin Ent Asset" inherit_id="web.assets_backend">
             <xpath expr="." position="inside">
                 <script type="text/javascript" src="/weixin_ent_base/static/src/js/hr_employee_tags.js"></script>
+                <script type="text/javascript" src="/weixin_ent_base/static/src/js/ent_externa_lcontact.js"></script>
             </xpath>
         </template>
 
@@ -14,7 +15,7 @@
 
         <menuitem name="通讯录" id="address_book_menu" parent="weixin_main_menu" sequence="1"/>
 
-        <menuitem name="外部联系人" id="external_contact_menu" parent="weixin_main_menu" sequence="2"/>
+        <menuitem name="联系人" id="external_contact_menu" parent="weixin_main_menu" sequence="2"/>
 
         <menuitem name="设置" id="configure_menu" parent="weixin_main_menu" sequence="100"/>
 

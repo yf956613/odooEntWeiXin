@@ -18,6 +18,23 @@
         </t>
     </t>
 
+    <t t-name="OdooEntWeiXinListView.EntExternaLcontact_Tree_But">
+        <button type="button" class="btn btn-secondary ent_externa_lcontact_tree_but">
+            获取联系人列表
+        </button>
+    </t>
+
+    <t t-extend="ListView.buttons" t-name="OdooEntWeiXinListView.EntExternaLcontact_Tree_Buttton">
+        <t t-jquery="button.o_list_button_add" t-operation="after">
+            <t t-js="ctx">
+                if (window.odoo._modules.indexOf("base_import") >= 0) {
+                    r.push(context.engine.tools.call(context, 'ImportView.import_button', dict));
+                };
+            </t>
+            <t t-call="OdooEntWeiXinListView.EntExternaLcontact_Tree_But"/>
+        </t>
+    </t>
+
 </template>
 
 

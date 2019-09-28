@@ -4,35 +4,28 @@
 ###################################################################################
 import json
 import logging
+import time
+
 import requests
-from requests import ReadTimeout, ConnectTimeout
+from requests import ReadTimeout
 from odoo import api, models
 from wechatpy.enterprise import WeChatClient
 from wechatpy.session.memorystorage import MemoryStorage
-
 from odoo.http import request
 
 mem_storage = MemoryStorage()
 _logger = logging.getLogger(__name__)
 
 
-def app_client():
+def app_client(secret_str):
     """
-    返回用于自建应用的客户端实例
+    根据应用的secret返回一个客户端实例，用于调取实例函数
+    :param secret_str: 应用secret
     :return: 企业微信客户端实例
     """
+    secret_str = 'weixin_ent_base.{}'.format(secret_str)
     corp_id = request.env['ir.config_parameter'].sudo().get_param('weixin_ent_base.ent_wx_corp_id')
-    secret = request.env['ir.config_parameter'].sudo().get_param('weixin_ent_base.ent_wx_secret')
-    return WeChatClient(corp_id, secret, session=mem_storage)
-
-
-def address_client():
-    """
-    返回用于通讯录的客户端实例
-    :return:
-    """
-    corp_id = request.env['ir.config_parameter'].sudo().get_param('weixin_ent_base.ent_wx_corp_id')
-    secret = request.env['ir.config_parameter'].sudo().get_param('weixin_ent_base.ent_wx_ab_secret')
+    secret = request.env['ir.config_parameter'].sudo().get_param(secret_str)
     return WeChatClient(corp_id, secret, session=mem_storage)
 
 
@@ -76,6 +69,16 @@ def request_post(url, token, data=None, timeout=None):
         return {"errcode": 'ReadTimeout', 'errmsg': "网络连接超时!"}
     except Exception as e:
         return {"errcode": 'Exception', 'errmsg': str(e)}
+
+
+def time_stamp(time_num):
+    """
+    将10位时间戳转换为时间(utc=0)
+    :param time_num: 10位时间戳
+    :return: "%Y-%m-%d"
+    """
+    time_array = time.gmtime(time_num)
+    return time.strftime("%Y-%m-%d", time_array)
 
 
 class WeiXinEntTools(models.TransientModel):

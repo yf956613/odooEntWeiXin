@@ -5,7 +5,7 @@
 import logging
 from odoo import api, fields, models
 from odoo.exceptions import UserError
-from odoo.addons.weixin_ent_base.weixin_ent_tool.wx_tool import request_post, request_get, address_client
+from odoo.addons.weixin_ent_base.weixin_ent_tool.wx_tool import request_post, request_get, app_client
 from wechatpy.enterprise.client.api import WeChatTag
 
 _logger = logging.getLogger(__name__)
@@ -324,7 +324,7 @@ class EmployeeTags(models.Model):
         """
         if 'api_state' not in values or values['api_state']:
             try:
-                client = WeChatTag(address_client())
+                client = WeChatTag(app_client('ent_wx_ab_secret'))
                 result = client.create(values.get('name'))
             except Exception as e:
                 raise UserError(str(e))
@@ -343,7 +343,7 @@ class EmployeeTags(models.Model):
         for res in self:
             if res.wx_ent_id:
                 try:
-                    client = WeChatTag(address_client())
+                    client = WeChatTag(app_client('ent_wx_ab_secret'))
                     result = client.delete(res.wx_ent_id)
                 except Exception as e:
                     raise UserError(str(e))
@@ -359,7 +359,7 @@ class EmployeeTags(models.Model):
         """
         for res in self:
             try:
-                client = WeChatTag(address_client())
+                client = WeChatTag(app_client('ent_wx_ab_secret'))
                 result = client.update(res.wx_ent_id, res.name)
             except Exception as e:
                 raise UserError(str(e))
@@ -377,7 +377,7 @@ class EmployeeTags(models.Model):
             user_list = []
             dept_list = []
             try:
-                client = WeChatTag(address_client())
+                client = WeChatTag(app_client('ent_wx_ab_secret'))
                 result = client.get_users(res.wx_ent_id)
             except Exception as e:
                 raise UserError(str(e))

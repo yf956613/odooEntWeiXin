@@ -24,14 +24,14 @@
         'views/assets.xml',
         'wizard/synchronous.xml',
         'wizard/hr_employee_tags.xml',
+        'wizard/externa_lcontact.xml',
 
         'views/res_config_settings_views.xml',
         'views/system_parameter.xml',
         'views/weixin_ent_hr.xml',
         'views/res_users_views.xml',
         'views/oauth_templates.xml',
-
-
+        'views/externa_lcontact.xml',
     ],
     'qweb': [
         'static/xml/*.xml'

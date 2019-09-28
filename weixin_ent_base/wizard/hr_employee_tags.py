@@ -6,7 +6,7 @@ import logging
 from wechatpy.enterprise.client.api import WeChatTag
 from odoo import api, fields, models
 from odoo.exceptions import UserError
-from odoo.addons.weixin_ent_base.weixin_ent_tool.wx_tool import address_client
+from odoo.addons.weixin_ent_base.weixin_ent_tool.wx_tool import app_client
 
 _logger = logging.getLogger(__name__)
 
@@ -22,7 +22,7 @@ class EmployeeTags(models.TransientModel):
         :return:
         """
         try:
-            client = WeChatTag(address_client())
+            client = WeChatTag(app_client('ent_wx_ab_secret'))
             result = client.list()
         except Exception as e:
             raise UserError(str(e))
@@ -60,7 +60,7 @@ class AddEmployeeTags(models.TransientModel):
         for emp in self.emp_ids:
             tag_emp_ids.append(emp.id)
             try:
-                client = WeChatTag(address_client())
+                client = WeChatTag(app_client('ent_wx_ab_secret'))
                 result = client.add_users(tag_id, emp.ent_wx_id)
             except Exception as e:
                 raise UserError(str(e))
@@ -102,7 +102,7 @@ class DeleteEmployeeTags(models.TransientModel):
         for emp in self.emp_ids:
             emp_ex_id.append(emp.ent_wx_id)
         try:
-            client = WeChatTag(address_client())
+            client = WeChatTag(app_client('ent_wx_ab_secret'))
             result = client.delete_users(tag_id, emp_ex_id)
         except Exception as e:
             raise UserError(str(e))

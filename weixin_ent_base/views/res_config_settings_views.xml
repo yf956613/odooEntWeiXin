@@ -62,6 +62,16 @@
                                 </div>
                             </div>
                         </div>
+                        <div class="col-12 col-lg-6 o_setting_box">
+                            <div class="o_setting_right_pane">
+                                <field name="ent_wx_el_secret" password="password" placeholder="可调用外部联系人的有效Secret"/>
+                            </div>
+                            <div class="o_setting_right_pane">
+                                <label for="ent_wx_el_secret"/>
+                                <div class="text-muted">
+                                </div>
+                            </div>
+                        </div>
                     </div>
                     <h2>Odoo动作</h2>
                     <div class="row mt16 o_settings_container">
